@@ -23,6 +23,7 @@ function LandingPage() {
       <Hero />
       <Featured />
       <Why />
+      <Reviews />
       <SiteFooter />
     </div>
   );
