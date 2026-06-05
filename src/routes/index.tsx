@@ -190,3 +190,108 @@ function Why() {
     </section>
   );
 }
+
+const REVIEWS = [
+  {
+    id: "r1",
+    name: "Sarah Jenkins",
+    role: "YouTuber, 280K subs",
+    avatar: "https://i.pravatar.cc/150?u=sarah",
+    rating: 5,
+    text: "I found an amazing editor through Editing Hub. Turnaround time dropped from 5 days to 2, and the quality actually went up.",
+    editor: "Marcus L.",
+  },
+  {
+    id: "r2",
+    name: "Derek Okafor",
+    role: "Creative Director, Bloom Agency",
+    avatar: "https://i.pravatar.cc/150?u=derek",
+    rating: 5,
+    text: "We needed a motion graphics specialist for a brand campaign. Within 48 hours we had three strong candidates and hired one.",
+    editor: "Priya S.",
+  },
+  {
+    id: "r3",
+    name: "Emily Rourke",
+    role: "Wedding filmmaker",
+    avatar: "https://i.pravatar.cc/150?u=emily",
+    rating: 5,
+    text: "The editor I hired understood the emotional tone I wanted instantly. My clients have noticed the difference in the final cuts.",
+    editor: "Tomás V.",
+  },
+  {
+    id: "r4",
+    name: "Jake Morrison",
+    role: "Short-form creator",
+    avatar: "https://i.pravatar.cc/150?u=jake",
+    rating: 5,
+    text: "Finally a place where I can filter by TikTok and Reels experience. Saved me hours of back-and-forth with generalist editors.",
+    editor: "Lea K.",
+  },
+  {
+    id: "r5",
+    name: "Nadia Patel",
+    role: "Documentary producer",
+    avatar: "https://i.pravatar.cc/150?u=nadia",
+    rating: 5,
+    text: "Our feature doc needed a senior editor with DaVinci Resolve experience. Editing Hub delivered exactly that.",
+    editor: "Hugo B.",
+  },
+  {
+    id: "r6",
+    name: "Chris Taylor",
+    role: "E-commerce brand owner",
+    avatar: "https://i.pravatar.cc/150?u=chris",
+    rating: 4,
+    text: "Great selection of editors with commercial experience. Pricing is transparent and communication has been smooth.",
+    editor: "Ingrid M.",
+  },
+];
+
+function Reviews() {
+  return (
+    <section className="py-20 bg-background">
+      <div className="max-w-6xl mx-auto px-5">
+        <div className="text-center mb-12">
+          <p className="text-xs font-semibold uppercase tracking-widest text-[#FDAA3E] mb-2">Reviews</p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">Loved by creators</h2>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {REVIEWS.map((r) => (
+            <div
+              key={r.id}
+              className="rounded-2xl border border-border/40 bg-card p-6 flex flex-col"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <img src={r.avatar} alt={r.name} className="w-10 h-10 rounded-full object-cover" loading="lazy" />
+                <div className="min-w-0">
+                  <p className="font-semibold text-foreground text-sm truncate">{r.name}</p>
+                  <p className="text-xs text-muted-foreground truncate">{r.role}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-0.5 mb-3">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-3.5 h-3.5 ${i < r.rating ? "fill-[#FDAA3E] text-[#FDAA3E]" : "text-muted-foreground/30"}`}
+                  />
+                ))}
+              </div>
+
+              <div className="relative flex-1">
+                <Quote className="absolute -top-1 -left-1 w-5 h-5 text-[#FDAA3E]/20" />
+                <p className="text-sm text-foreground leading-relaxed pl-4">{r.text}</p>
+              </div>
+
+              <p className="text-xs text-muted-foreground mt-4 pt-3 border-t border-border/40">
+                Hired <span className="font-medium text-foreground">{r.editor}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
