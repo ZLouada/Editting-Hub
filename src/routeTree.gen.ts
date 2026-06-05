@@ -12,8 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as EditorsRouteImport } from './routes/editors'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EditorsIdRouteImport } from './routes/editors.$id'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -30,6 +33,16 @@ const InsightsRoute = InsightsRouteImport.update({
   path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EditorsRoute = EditorsRouteImport.update({
+  id: '/editors',
+  path: '/editors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRoute = AppRouteImport.update({
   id: '/app',
   path: '/app',
@@ -40,40 +53,81 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EditorsIdRoute = EditorsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => EditorsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
+  '/contact': typeof ContactRoute
+  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/login': typeof LoginRoute
   '/settings': typeof SettingsRoute
+  '/editors/$id': typeof EditorsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
+  '/contact': typeof ContactRoute
+  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/login': typeof LoginRoute
   '/settings': typeof SettingsRoute
+  '/editors/$id': typeof EditorsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRoute
+  '/contact': typeof ContactRoute
+  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/login': typeof LoginRoute
   '/settings': typeof SettingsRoute
+  '/editors/$id': typeof EditorsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/insights' | '/login' | '/settings'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/contact'
+    | '/editors'
+    | '/insights'
+    | '/login'
+    | '/settings'
+    | '/editors/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/insights' | '/login' | '/settings'
-  id: '__root__' | '/' | '/app' | '/insights' | '/login' | '/settings'
+  to:
+    | '/'
+    | '/app'
+    | '/contact'
+    | '/editors'
+    | '/insights'
+    | '/login'
+    | '/settings'
+    | '/editors/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/contact'
+    | '/editors'
+    | '/insights'
+    | '/login'
+    | '/settings'
+    | '/editors/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRoute
+  ContactRoute: typeof ContactRoute
+  EditorsRoute: typeof EditorsRouteWithChildren
   InsightsRoute: typeof InsightsRoute
   LoginRoute: typeof LoginRoute
   SettingsRoute: typeof SettingsRoute
@@ -102,6 +156,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/editors': {
+      id: '/editors'
+      path: '/editors'
+      fullPath: '/editors'
+      preLoaderRoute: typeof EditorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -116,12 +184,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/editors/$id': {
+      id: '/editors/$id'
+      path: '/$id'
+      fullPath: '/editors/$id'
+      preLoaderRoute: typeof EditorsIdRouteImport
+      parentRoute: typeof EditorsRoute
+    }
   }
 }
+
+interface EditorsRouteChildren {
+  EditorsIdRoute: typeof EditorsIdRoute
+}
+
+const EditorsRouteChildren: EditorsRouteChildren = {
+  EditorsIdRoute: EditorsIdRoute,
+}
+
+const EditorsRouteWithChildren =
+  EditorsRoute._addFileChildren(EditorsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRoute,
+  ContactRoute: ContactRoute,
+  EditorsRoute: EditorsRouteWithChildren,
   InsightsRoute: InsightsRoute,
   LoginRoute: LoginRoute,
   SettingsRoute: SettingsRoute,
