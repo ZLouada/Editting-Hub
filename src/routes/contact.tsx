@@ -93,7 +93,7 @@ function ContactPage() {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
                   maxLength={100}
-                  className="input"
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
               </Field>
               <Field label="Email" required>
@@ -103,7 +103,7 @@ function ContactPage() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   required
                   maxLength={255}
-                  className="input"
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 />
               </Field>
             </div>
@@ -113,7 +113,7 @@ function ContactPage() {
                 <select
                   value={form.projectType}
                   onChange={(e) => setForm({ ...form, projectType: e.target.value })}
-                  className="input"
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 >
                   <option value="">Select…</option>
                   <option>YouTube video</option>
@@ -129,7 +129,7 @@ function ContactPage() {
                 <select
                   value={form.budget}
                   onChange={(e) => setForm({ ...form, budget: e.target.value })}
-                  className="input"
+                  className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                 >
                   <option value="">Select…</option>
                   <option>Under $500</option>
@@ -147,7 +147,7 @@ function ContactPage() {
                 required
                 rows={6}
                 maxLength={2000}
-                className="input resize-none"
+                className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
                 placeholder="Footage length, deadline, style references…"
               />
             </Field>
