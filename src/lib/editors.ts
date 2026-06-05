@@ -207,5 +207,8 @@ export const ALL_SPECIALTIES = [
 ];
 
 export function getEditor(id: string): Editor | undefined {
-  return EDITORS.find((e) => e.id === id);
+  const editor = EDITORS.find((e) => e.id === id);
+  if (!editor) return undefined;
+  return { ...editor, testimonials: editor.testimonials ?? MOCK_REVIEWS };
 }
+
