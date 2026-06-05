@@ -66,29 +66,31 @@ export function useTheme() {
 }
 
 export function ThemeToggle({ variant = "light" }: { variant?: "light" | "dark" }) {
-  const { theme, cycle } = useTheme();
+  const { theme, cycle, mounted } = useTheme();
   const onDark = variant === "dark";
 
-  const icon =
-    theme === "dark" ? (
-      <Moon className="w-[18px] h-[18px]" />
-    ) : theme === "light" ? (
-      <Sun className="w-[18px] h-[18px]" />
-    ) : (
-      <Monitor className="w-[18px] h-[18px]" />
-    );
+  const icon = !mounted ? (
+    <Monitor className="w-[18px] h-[18px]" />
+  ) : theme === "dark" ? (
+    <Moon className="w-[18px] h-[18px]" />
+  ) : theme === "light" ? (
+    <Sun className="w-[18px] h-[18px]" />
+  ) : (
+    <Monitor className="w-[18px] h-[18px]" />
+  );
 
   return (
     <button
       onClick={cycle}
-      title={`Theme: ${theme}`}
+      suppressHydrationWarning
+      title={mounted ? `Theme: ${theme}` : "Theme"}
       className={`relative inline-flex items-center justify-center w-9 h-9 rounded-xl transition-all duration-200 active:scale-[0.93] ${
         onDark
           ? "bg-white/10 text-white hover:bg-white/20 border border-white/20"
           : "bg-muted text-foreground hover:bg-accent border border-border/60"
       }`}
     >
-      {icon}
+      <span suppressHydrationWarning>{icon}</span>
     </button>
   );
 }
