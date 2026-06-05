@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, Star, ArrowRight, Sparkles, Clock, ShieldCheck } from "lucide-react";
+import { Search, Star, ArrowRight, Sparkles, Clock, ShieldCheck, Quote } from "lucide-react";
 import heroImg from "@/assets/hero-editor.jpg";
 import { EDITORS } from "@/lib/editors";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
