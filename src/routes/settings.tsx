@@ -19,8 +19,8 @@ export const Route = createFileRoute("/settings")({
   component: SettingsPage,
   head: () => ({
     meta: [
-      { title: "Continuum — Settings" },
-      { name: "description", content: "Customize your Continuum experience." },
+      { title: "Editing Hub — Settings" },
+      { name: "description", content: "Customize your Editing Hub experience." },
     ],
   }),
 });
@@ -44,7 +44,7 @@ function SettingsPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `continuum-backup-${new Date().toISOString().split("T")[0]}.json`;
+    a.download = `editing-hub-backup-${new Date().toISOString().split("T")[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
     toast.success("Data exported successfully");
@@ -295,7 +295,7 @@ function SettingsPage() {
                   <Leaf className="w-5 h-5 text-primary-foreground" />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-foreground">Continuum</p>
+                  <p className="text-sm font-medium text-foreground">Editing Hub</p>
                   <p className="text-[12px] text-muted-foreground">Version 1.0.0 · Built with care</p>
                 </div>
               </div>
