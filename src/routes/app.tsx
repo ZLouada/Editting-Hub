@@ -34,8 +34,8 @@ export const Route = createFileRoute("/app")({
   component: TodayPage,
   head: () => ({
     meta: [
-      { title: "Continuum — Your daily ritual" },
-      { name: "description", content: "Build lasting habits with Continuum. Simple streak tracking, beautiful progress visualization." },
+      { title: "Editing Hub — Your daily ritual" },
+      { name: "description", content: "Build lasting habits with Editing Hub. Simple streak tracking, beautiful progress visualization." },
     ],
   }),
 });
