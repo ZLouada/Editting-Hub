@@ -1,7 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Star, MapPin, Check, Wrench, Images } from "lucide-react";
-import { getEditor } from "@/lib/editors";
+import { ArrowLeft, Star, MapPin, Check, Wrench, Images, FileText, Send, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { z } from "zod";
+import { toast } from "sonner";
+import { getEditor, type Editor } from "@/lib/editors";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/editors/$id")({
   component: EditorProfilePage,
