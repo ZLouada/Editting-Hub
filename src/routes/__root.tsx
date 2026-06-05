@@ -41,7 +41,7 @@ export const Route = createRootRoute({
       {
         children: `
           (function() {
-            var theme = localStorage.getItem('continuum_theme') || 'light';
+            var theme = localStorage.getItem('continuum_theme') || 'system';
             if (theme === 'system') {
               theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             }
