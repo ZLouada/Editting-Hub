@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Star, MapPin, Check, Wrench, Images, FileText, Send, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Check, Wrench, Images, FileText, Send, CheckCircle2, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
