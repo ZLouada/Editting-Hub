@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Star, MapPin, Check, Wrench, Images, FileText, Send, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Check, Wrench, Images, FileText, Send, CheckCircle2, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -133,6 +133,47 @@ function EditorProfilePage() {
             ))}
           </div>
         </div>
+
+        {/* Reviews */}
+        <div className="mt-5 rounded-2xl bg-card border border-border/40 p-6 sm:p-8">
+          <div className="flex items-center justify-between gap-2 mb-5 flex-wrap">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-[#FDAA3E]/15 flex items-center justify-center">
+                <MessageSquare className="w-4 h-4 text-[#FDAA3E]" />
+              </div>
+              <h2 className="font-semibold text-foreground text-lg">Reviews</h2>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Star className="w-4 h-4 fill-[#FDAA3E] text-[#FDAA3E]" />
+              <span className="font-semibold text-foreground">{editor.rating}</span>
+              <span className="text-sm text-muted-foreground">· {editor.reviews} reviews</span>
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {(editor.testimonials ?? []).map((r) => (
+              <div key={r.author} className="rounded-xl border border-border/40 bg-muted/30 p-5">
+                <div className="flex items-center gap-3">
+                  <img src={r.avatar} alt={r.author} className="w-10 h-10 rounded-full object-cover" />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-foreground text-sm truncate">{r.author}</p>
+                    <p className="text-xs text-muted-foreground">{r.date}</p>
+                  </div>
+                  <div className="flex items-center gap-0.5">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-3.5 h-3.5 ${i < r.rating ? "fill-[#FDAA3E] text-[#FDAA3E]" : "text-muted-foreground/30"}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-sm text-foreground/90 mt-3 leading-relaxed">"{r.comment}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+
 
         {/* Specialties & Software */}
         <div className="grid sm:grid-cols-2 gap-5 mt-5">

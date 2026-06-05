@@ -1,3 +1,11 @@
+export type EditorReview = {
+  author: string;
+  avatar: string;
+  rating: number;
+  date: string;
+  comment: string;
+};
+
 export type Editor = {
   id: string;
   name: string;
@@ -13,7 +21,41 @@ export type Editor = {
   showreel?: string;
   skills: string[];
   portfolioImages: string[];
+  testimonials?: EditorReview[];
 };
+
+const MOCK_REVIEWS: EditorReview[] = [
+  {
+    author: "Sarah Patel",
+    avatar: "https://i.pravatar.cc/100?img=47",
+    rating: 5,
+    date: "2 weeks ago",
+    comment: "Delivered a week early and the color grade is gorgeous. Will absolutely book again for our next campaign.",
+  },
+  {
+    author: "Marcus Chen",
+    avatar: "https://i.pravatar.cc/100?img=12",
+    rating: 5,
+    date: "1 month ago",
+    comment: "Communication was top-notch and the pacing of the final cut was exactly what we pitched. Worth every penny.",
+  },
+  {
+    author: "Olivia Reed",
+    avatar: "https://i.pravatar.cc/100?img=32",
+    rating: 4,
+    date: "2 months ago",
+    comment: "Great eye for story. Needed one round of revisions on audio levels but the end result was excellent.",
+  },
+  {
+    author: "Diego Alvarez",
+    avatar: "https://i.pravatar.cc/100?img=68",
+    rating: 5,
+    date: "3 months ago",
+    comment: "Turned 12 hours of footage into a 90-second masterpiece. Our launch video crushed it on every channel.",
+  },
+];
+
+
 
 export const EDITORS: Editor[] = [
   {
@@ -165,5 +207,8 @@ export const ALL_SPECIALTIES = [
 ];
 
 export function getEditor(id: string): Editor | undefined {
-  return EDITORS.find((e) => e.id === id);
+  const editor = EDITORS.find((e) => e.id === id);
+  if (!editor) return undefined;
+  return { ...editor, testimonials: editor.testimonials ?? MOCK_REVIEWS };
 }
+
