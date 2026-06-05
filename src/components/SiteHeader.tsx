@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Film } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }) {
   const onDark = variant === "dark";
@@ -15,16 +16,19 @@ export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }
         <Link to="/editors" className="hover:opacity-80 transition-opacity">Browse editors</Link>
         <Link to="/contact" className="hover:opacity-80 transition-opacity">Contact</Link>
       </div>
-      <Link
-        to="/editors"
-        className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 active:scale-[0.97] ${
-          onDark
-            ? "border border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
-            : "bg-foreground text-background hover:opacity-90"
-        }`}
-      >
-        Find an editor
-      </Link>
+      <div className="flex items-center gap-2">
+        <ThemeToggle variant={variant} />
+        <Link
+          to="/editors"
+          className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 active:scale-[0.97] ${
+            onDark
+              ? "border border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
+              : "bg-foreground text-background hover:opacity-90"
+          }`}
+        >
+          Find an editor
+        </Link>
+      </div>
     </nav>
   );
 }
