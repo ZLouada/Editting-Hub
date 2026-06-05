@@ -367,7 +367,7 @@ function Footer() {
             <Link to="/login" className="hover:text-foreground transition-colors">Get started</Link>
           </div>
 
-          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Continuum</p>
+          <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Editing Hub</p>
         </div>
       </div>
     </footer>
