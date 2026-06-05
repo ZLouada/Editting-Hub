@@ -24,20 +24,27 @@ function applyTheme(theme: Theme) {
 }
 
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const [theme, setThemeState] = useState<Theme>("system");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setThemeState(getInitialTheme());
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     applyTheme(theme);
     localStorage.setItem(STORAGE_KEY, theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   useEffect(() => {
-    if (theme !== "system") return;
+    if (!mounted || theme !== "system") return;
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => applyTheme("system");
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const setTheme = useCallback((t: Theme) => setThemeState(t), []);
   const cycle = useCallback(() => {
@@ -55,7 +62,7 @@ export function useTheme() {
         : "light"
       : theme;
 
-  return { theme, effective, setTheme, cycle };
+  return { theme, effective, setTheme, cycle, mounted };
 }
 
 export function ThemeToggle({ variant = "light" }: { variant?: "light" | "dark" }) {
