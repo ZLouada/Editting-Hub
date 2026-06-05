@@ -1,7 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Star, MapPin, Check, Wrench, Images } from "lucide-react";
-import { getEditor } from "@/lib/editors";
+import { ArrowLeft, Star, MapPin, Check, Wrench, Images, FileText, Send, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { z } from "zod";
+import { toast } from "sonner";
+import { getEditor, type Editor } from "@/lib/editors";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/editors/$id")({
   component: EditorProfilePage,
@@ -153,9 +157,154 @@ function EditorProfilePage() {
             </ul>
           </div>
         </div>
+
+        {/* Request a Quote */}
+        <RequestQuoteSection editor={editor} />
       </div>
+
 
       <SiteFooter />
     </div>
   );
 }
+
+const quoteSchema = z.object({
+  name: z.string().trim().min(1, "Name required").max(100),
+  email: z.string().trim().email("Invalid email").max(255),
+  budget: z.string().max(50).optional(),
+  message: z.string().trim().min(10, "Tell us a bit more about your project").max(2000),
+});
+
+function RequestQuoteSection({ editor }: { editor: Editor }) {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    budget: "",
+    message: `Hi ${editor.name.split(" ")[0]}, I'd love a quote for a project. `,
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = quoteSchema.safeParse(form);
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0].message);
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase.from("contact_submissions").insert({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      project_type: `Quote request — ${editor.name}`,
+      budget: parsed.data.budget || null,
+      message: parsed.data.message,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast.error("Could not send. Please try again.");
+      return;
+    }
+    setDone(true);
+    toast.success("Quote request sent!");
+  };
+
+  return (
+    <div className="mt-5 rounded-2xl bg-card border border-border/40 p-6 sm:p-8" id="request-quote">
+      <div className="flex items-center gap-2 mb-1">
+        <div className="w-8 h-8 rounded-lg bg-[#FDAA3E]/15 flex items-center justify-center">
+          <FileText className="w-4 h-4 text-[#FDAA3E]" />
+        </div>
+        <h2 className="font-semibold text-foreground text-lg">Request a quote</h2>
+      </div>
+      <p className="text-sm text-muted-foreground mb-5 ml-10">
+        Send {editor.name.split(" ")[0]} a brief — we'll reply within 1 business day.
+      </p>
+
+      {done ? (
+        <div className="rounded-xl border border-border/40 bg-muted/40 p-6 text-center">
+          <div className="w-12 h-12 rounded-full bg-[#FDAA3E]/15 flex items-center justify-center mx-auto mb-3">
+            <CheckCircle2 className="w-6 h-6 text-[#FDAA3E]" />
+          </div>
+          <p className="font-semibold text-foreground">Quote request sent</p>
+          <p className="text-sm text-muted-foreground mt-1">We'll get back to you at {form.email}.</p>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="rounded-xl bg-muted/40 border border-border/40 px-4 py-3 text-sm">
+            <span className="text-muted-foreground">For: </span>
+            <span className="font-semibold text-foreground">{editor.name}</span>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <label className="block">
+              <span className="text-sm font-medium text-foreground">
+                Your name <span className="text-[#FDAA3E]">*</span>
+              </span>
+              <input
+                type="text"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                required
+                maxLength={100}
+                className="mt-1.5 w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            </label>
+            <label className="block">
+              <span className="text-sm font-medium text-foreground">
+                Email <span className="text-[#FDAA3E]">*</span>
+              </span>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                required
+                maxLength={255}
+                className="mt-1.5 w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            </label>
+          </div>
+
+          <label className="block">
+            <span className="text-sm font-medium text-foreground">Budget</span>
+            <select
+              value={form.budget}
+              onChange={(e) => setForm({ ...form, budget: e.target.value })}
+              className="mt-1.5 w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              <option value="">Select…</option>
+              <option>Under $500</option>
+              <option>$500 – $2,000</option>
+              <option>$2,000 – $10,000</option>
+              <option>$10,000+</option>
+            </select>
+          </label>
+
+          <label className="block">
+            <span className="text-sm font-medium text-foreground">
+              Project brief <span className="text-[#FDAA3E]">*</span>
+            </span>
+            <textarea
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              required
+              rows={5}
+              maxLength={2000}
+              className="mt-1.5 w-full rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              placeholder="Footage length, deadline, style references…"
+            />
+          </label>
+
+          <button
+            type="submit"
+            disabled={submitting}
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#FDAA3E] text-[#1a1a1a] px-6 py-3 text-sm font-bold hover:bg-[#fdb95e] transition-all active:scale-[0.97] disabled:opacity-50"
+          >
+            {submitting ? "Sending…" : (<>Request quote <Send className="w-4 h-4" /></>)}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
