@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, Star, MapPin, Check } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Check, Wrench, Images } from "lucide-react";
 import { getEditor } from "@/lib/editors";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 
@@ -43,12 +43,13 @@ function EditorProfilePage() {
         <SiteHeader />
       </div>
 
-      <div className="max-w-4xl mx-auto px-5 pt-8 pb-16">
+      <div className="max-w-5xl mx-auto px-5 pt-8 pb-16">
         <Link to="/editors" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="w-4 h-4" />
           Back to editors
         </Link>
 
+        {/* Profile Card */}
         <div className="mt-6 rounded-2xl bg-card border border-border/40 p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row gap-6 items-start">
             <img src={editor.avatar} alt={editor.name} className="w-24 h-24 rounded-full object-cover" />
@@ -86,6 +87,50 @@ function EditorProfilePage() {
           </div>
         </div>
 
+        {/* Skills */}
+        <div className="mt-5 rounded-2xl bg-card border border-border/40 p-6 sm:p-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-8 h-8 rounded-lg bg-[#FDAA3E]/15 flex items-center justify-center">
+              <Wrench className="w-4 h-4 text-[#FDAA3E]" />
+            </div>
+            <h2 className="font-semibold text-foreground text-lg">Skills</h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {editor.skills.map((skill) => (
+              <span
+                key={skill}
+                className="inline-flex items-center gap-1.5 rounded-full bg-muted px-4 py-2 text-sm text-foreground border border-border/40"
+              >
+                <Check className="w-3.5 h-3.5 text-[#FDAA3E]" />
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Portfolio Images */}
+        <div className="mt-5 rounded-2xl bg-card border border-border/40 p-6 sm:p-8">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="w-8 h-8 rounded-lg bg-[#FDAA3E]/15 flex items-center justify-center">
+              <Images className="w-4 h-4 text-[#FDAA3E]" />
+            </div>
+            <h2 className="font-semibold text-foreground text-lg">Portfolio</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {editor.portfolioImages.map((url, idx) => (
+              <div key={idx} className="group relative aspect-[16/10] rounded-xl overflow-hidden border border-border/40 bg-muted">
+                <img
+                  src={url}
+                  alt={`${editor.name} portfolio ${idx + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Specialties & Software */}
         <div className="grid sm:grid-cols-2 gap-5 mt-5">
           <div className="rounded-2xl bg-card border border-border/40 p-6">
             <h2 className="font-semibold text-foreground mb-3">Specialties</h2>

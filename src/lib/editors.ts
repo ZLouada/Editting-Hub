@@ -11,6 +11,8 @@ export type Editor = {
   software: string[];
   bio: string;
   showreel?: string;
+  skills: string[];
+  portfolioImages: string[];
 };
 
 export const EDITORS: Editor[] = [
@@ -26,6 +28,12 @@ export const EDITORS: Editor[] = [
     specialties: ["YouTube", "Short-form", "Brand films"],
     software: ["Premiere Pro", "After Effects", "DaVinci Resolve"],
     bio: "10+ years editing for brands and creators. Specialised in story-driven cuts that hold attention from frame one.",
+    skills: ["Color Grading", "Sound Design", "Motion Graphics", "Storyboarding", "Multi-cam Sync", "Subtitle Styling"],
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1535016120720-40c6874c3b13?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800&h=500&fit=crop",
+    ],
   },
   {
     id: "emma-lindstrom",
@@ -39,6 +47,12 @@ export const EDITORS: Editor[] = [
     specialties: ["Documentary", "Long-form", "Podcasts"],
     software: ["DaVinci Resolve", "Premiere Pro"],
     bio: "I shape interviews and B-roll into narratives that feel inevitable. Past clients include Netflix and the BBC.",
+    skills: ["Archival Research", "Interview Pacing", "Narrative Structure", "Audio Restoration", "Color Matching", "Closed Captions"],
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&h=500&fit=crop",
+    ],
   },
   {
     id: "ryan-mitchell",
@@ -52,6 +66,12 @@ export const EDITORS: Editor[] = [
     specialties: ["Motion graphics", "VFX", "Commercials"],
     software: ["After Effects", "Cinema 4D", "Premiere Pro"],
     bio: "From kinetic type to complex composites. I bring polish to ads, music videos and tech keynotes.",
+    skills: ["3D Animation", "Particle Effects", "Kinetic Typography", "Rotoscoping", "Green Screen Keying", "Logo Animation"],
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=500&fit=crop",
+    ],
   },
   {
     id: "mei-lin",
@@ -65,6 +85,12 @@ export const EDITORS: Editor[] = [
     specialties: ["Weddings", "Events", "Highlight reels"],
     software: ["Final Cut Pro", "DaVinci Resolve"],
     bio: "Emotional, musical edits that families rewatch for years. 200+ weddings delivered.",
+    skills: ["Emotional Pacing", "Music Sync", "Same-day Edit", "Drone Footage Integration", "Teaser Trailers", "DVD Authoring"],
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1465495976277-969e09a2e79b?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=800&h=500&fit=crop",
+    ],
   },
   {
     id: "lucas-moreno",
@@ -78,6 +104,12 @@ export const EDITORS: Editor[] = [
     specialties: ["Gaming", "Twitch highlights", "YouTube"],
     software: ["Premiere Pro", "After Effects"],
     bio: "Fast turnarounds for streamers and esports teams. Punchy cuts, clean overlays, on-brand thumbnails.",
+    skills: ["Fast Pacing", "Overlay Design", "Thumbnail Design", "Stream Highlights", "Meme Editing", "Zoom Transitions"],
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=800&h=500&fit=crop",
+    ],
   },
   {
     id: "aisha-okafor",
@@ -91,6 +123,12 @@ export const EDITORS: Editor[] = [
     specialties: ["TikTok", "Reels", "Short-form"],
     software: ["CapCut", "Premiere Pro", "After Effects"],
     bio: "I make scroll-stopping verticals with captions, sound design and pacing tuned to each platform.",
+    skills: ["Hook Optimization", "Caption Animation", "Trend Sound Design", "Platform-native Formats", "A/B Testing Thumbnails", "Viral Pacing"],
+    portfolioImages: [
+      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1596558450255-7c0b7be9d56a?w=800&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1586899028174-e7098604235b?w=800&h=500&fit=crop",
+    ],
   },
 ];
 
