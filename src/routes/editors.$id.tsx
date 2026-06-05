@@ -157,7 +157,11 @@ function EditorProfilePage() {
             </ul>
           </div>
         </div>
+
+        {/* Request a Quote */}
+        <RequestQuoteSection editor={editor} />
       </div>
+
 
       <SiteFooter />
     </div>
