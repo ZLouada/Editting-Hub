@@ -10,8 +10,8 @@ const debugMiddleware = createMiddleware().server(async ({ next }) => {
         debug: true,
         error: err.message,
         env: {
-          hasSecret: !!process.env.CLERK_SECRET_KEY,
-          hasPublishable: !!process.env.VITE_CLERK_PUBLISHABLE_KEY,
+          hasSecret: typeof process !== "undefined" && !!process?.env?.CLERK_SECRET_KEY,
+          hasPublishable: typeof process !== "undefined" && !!process?.env?.VITE_CLERK_PUBLISHABLE_KEY,
         },
         stack: err.stack,
       }, null, 2),
@@ -28,8 +28,8 @@ export const startInstance = createStart(() => {
     requestMiddleware: [
       debugMiddleware,
       clerkMiddleware({
-        secretKey: process.env.CLERK_SECRET_KEY,
-        publishableKey: process.env.VITE_CLERK_PUBLISHABLE_KEY,
+        secretKey: typeof process !== "undefined" ? process?.env?.CLERK_SECRET_KEY : undefined,
+        publishableKey: typeof process !== "undefined" ? process?.env?.VITE_CLERK_PUBLISHABLE_KEY : undefined,
       }),
     ],
   };

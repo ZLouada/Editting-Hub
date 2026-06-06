@@ -1,4 +1,4 @@
-import { r as reactExports, a as React } from "./react.mjs";
+import { r as reactExports, R as React } from "./react.mjs";
 const hiddenStyles = {
   display: "none"
 };

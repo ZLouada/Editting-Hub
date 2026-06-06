@@ -17,6 +17,7 @@ import "util";
 import "crypto";
 import "async_hooks";
 import "stream";
+import "../_libs/scheduler.mjs";
 import "../_libs/isbot.mjs";
 import "../_libs/tiny-warning.mjs";
 function StartServer(props) {
@@ -194,7 +195,7 @@ function getResponse() {
   return event.res;
 }
 async function getStartManifest(matchedRoutes) {
-  const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-DUve267t.mjs");
+  const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-ztmMeNWi.mjs");
   const startManifest = tsrStartManifest();
   const rootRoute = startManifest.routes[rootRouteId] = startManifest.routes[rootRouteId] || {};
   rootRoute.assets = rootRoute.assets || [];
@@ -763,8 +764,8 @@ let entriesPromise;
 let baseManifestPromise;
 let cachedFinalManifestPromise;
 async function loadEntries() {
-  const routerEntry = await import("./router-DstwvJOU.mjs").then((n) => n.r);
-  const startEntry = await import("./start-HYkvq4Ni.mjs");
+  const routerEntry = await import("./router-CsTd3V8l.mjs").then((n) => n.r);
+  const startEntry = await import("./start-D-JK0F0W.mjs");
   return { startEntry, routerEntry };
 }
 function getEntries() {
@@ -1176,5 +1177,6 @@ function createServerEntry(entry) {
 const server = createServerEntry({ fetch });
 export {
   createServerEntry,
-  server as default
+  server as default,
+  getStartContext as g
 };

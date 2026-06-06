@@ -22,7 +22,7 @@ function _mergeNamespaces(n, m) {
 function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
-var jsxRuntime = { exports: {} };
+var jsxRuntime$2 = { exports: {} };
 var reactJsxRuntime_production = {};
 var hasRequiredReactJsxRuntime_production;
 function requireReactJsxRuntime_production() {
@@ -54,15 +54,20 @@ function requireReactJsxRuntime_production() {
 }
 var hasRequiredJsxRuntime;
 function requireJsxRuntime() {
-  if (hasRequiredJsxRuntime) return jsxRuntime.exports;
+  if (hasRequiredJsxRuntime) return jsxRuntime$2.exports;
   hasRequiredJsxRuntime = 1;
   {
-    jsxRuntime.exports = requireReactJsxRuntime_production();
+    jsxRuntime$2.exports = requireReactJsxRuntime_production();
   }
-  return jsxRuntime.exports;
+  return jsxRuntime$2.exports;
 }
 var jsxRuntimeExports = requireJsxRuntime();
-var react = { exports: {} };
+const jsxRuntime = /* @__PURE__ */ getDefaultExportFromCjs(jsxRuntimeExports);
+const jsxRuntime$1 = /* @__PURE__ */ _mergeNamespaces({
+  __proto__: null,
+  default: jsxRuntime
+}, [jsxRuntimeExports]);
+var react$1 = { exports: {} };
 var react_production = {};
 var hasRequiredReact_production;
 function requireReact_production() {
@@ -490,23 +495,24 @@ function requireReact_production() {
 }
 var hasRequiredReact;
 function requireReact() {
-  if (hasRequiredReact) return react.exports;
+  if (hasRequiredReact) return react$1.exports;
   hasRequiredReact = 1;
   {
-    react.exports = requireReact_production();
+    react$1.exports = requireReact_production();
   }
-  return react.exports;
+  return react$1.exports;
 }
 var reactExports = requireReact();
 const React = /* @__PURE__ */ getDefaultExportFromCjs(reactExports);
-const React$1 = /* @__PURE__ */ _mergeNamespaces({
+const react = /* @__PURE__ */ _mergeNamespaces({
   __proto__: null,
   default: React
 }, [reactExports]);
 export {
-  React$1 as R,
-  React as a,
+  React as R,
+  react as a,
   requireReact as b,
+  jsxRuntime$1 as c,
   getDefaultExportFromCjs as g,
   jsxRuntimeExports as j,
   reactExports as r

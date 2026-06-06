@@ -1,4 +1,4 @@
-import { r as reactExports, a as React } from "./react.mjs";
+import { r as reactExports, R as React } from "./react.mjs";
 import { u as useDndContext, a as useDroppable, b as useDraggable, g as getClientRect, K as KeyboardCode } from "./dnd-kit__core.mjs";
 import { a as useUniqueId, d as useIsomorphicLayoutEffect, v as useCombinedRefs, i as isKeyboardEvent, C as CSS } from "./dnd-kit__utilities.mjs";
 function arrayMove(array, from, to) {

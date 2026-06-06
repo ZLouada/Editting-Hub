@@ -1,4 +1,4 @@
-import { j as jsxRuntimeExports, r as reactExports, R as React, a as React$1 } from "./react.mjs";
+import { j as jsxRuntimeExports, r as reactExports, a as react, R as React } from "./react.mjs";
 import { i as isNotFound, d as defaultGetScrollRestorationKey, r as restoreScroll, e as escapeHtml, s as storageKey, a as rootRouteId, b as isRedirect, g as getLocationChangeInfo, t as transformReadableStreamWithRouter, c as transformPipeableStreamWithRouter, f as isDangerousProtocol, h as exactPathTest, j as removeTrailingSlash, k as deepEqual, l as functionalUpdate, B as BaseRootRoute, m as BaseRoute, n as isModuleNotFoundError, R as RouterCore } from "./tanstack__router-core.mjs";
 import { i as invariant } from "./tiny-invariant.mjs";
 import { R as ReactDOMServer } from "./react-dom.mjs";
@@ -114,7 +114,7 @@ function useRouterState(opts) {
   }
 }
 const REACT_USE = "use";
-const reactUse = React[REACT_USE];
+const reactUse = react[REACT_USE];
 function useForwardedRef(ref) {
   const innerRef = reactExports.useRef(null);
   reactExports.useImperativeHandle(ref, () => innerRef.current, []);
@@ -208,10 +208,10 @@ function ScrollRestoration() {
   );
 }
 function ClientOnly({ children, fallback = null }) {
-  return useHydrated() ? /* @__PURE__ */ jsxRuntimeExports.jsx(React$1.Fragment, { children }) : /* @__PURE__ */ jsxRuntimeExports.jsx(React$1.Fragment, { children: fallback });
+  return useHydrated() ? /* @__PURE__ */ jsxRuntimeExports.jsx(React.Fragment, { children }) : /* @__PURE__ */ jsxRuntimeExports.jsx(React.Fragment, { children: fallback });
 }
 function useHydrated() {
-  return React$1.useSyncExternalStore(
+  return React.useSyncExternalStore(
     subscribe,
     () => true,
     () => false
@@ -921,7 +921,7 @@ class Route extends BaseRoute {
     this.useNavigate = () => {
       return useNavigate({ from: this.fullPath });
     };
-    this.Link = React$1.forwardRef(
+    this.Link = React.forwardRef(
       (props, ref) => {
         return /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { ref, from: this.fullPath, ...props });
       }
@@ -978,7 +978,7 @@ class RootRoute extends BaseRootRoute {
     this.useNavigate = () => {
       return useNavigate({ from: this.fullPath });
     };
-    this.Link = React$1.forwardRef(
+    this.Link = React.forwardRef(
       (props, ref) => {
         return /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { ref, from: this.fullPath, ...props });
       }
@@ -1466,7 +1466,9 @@ export {
   createRootRoute as a,
   createFileRoute as b,
   createRouter as c,
-  useLocation as d,
+  ScriptOnce as d,
+  useLocation as e,
+  useParams as f,
   lazyRouteComponent as l,
   renderRouterToStream as r,
   useNavigate as u

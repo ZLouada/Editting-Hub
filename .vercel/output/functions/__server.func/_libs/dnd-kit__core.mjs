@@ -1,4 +1,4 @@
-import { r as reactExports, a as React } from "./react.mjs";
+import { r as reactExports, R as React } from "./react.mjs";
 import { r as reactDomExports } from "./react-dom.mjs";
 import { u as useLatestValue, a as useUniqueId, g as getEventCoordinates, b as getWindow, c as add, d as useIsomorphicLayoutEffect, e as getOwnerDocument, i as isKeyboardEvent, s as subtract, f as useLazyMemo, h as isHTMLElement, j as useNodeRef, k as canUseDOM, l as useInterval, m as usePrevious, n as findFirstFocusableNode, o as useEvent, C as CSS, p as isWindow, q as isNode, r as isDocument, t as isSVGElement } from "./dnd-kit__utilities.mjs";
 import { u as useAnnouncement, H as HiddenText, L as LiveRegion } from "./dnd-kit__accessibility.mjs";

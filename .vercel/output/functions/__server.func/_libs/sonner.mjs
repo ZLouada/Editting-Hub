@@ -1,4 +1,4 @@
-import { a as React } from "./react.mjs";
+import { R as React } from "./react.mjs";
 import { a as ReactDOM } from "./react-dom.mjs";
 function __insertCSS(code) {
   if (typeof document == "undefined") return;
