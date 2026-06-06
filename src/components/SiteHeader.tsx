@@ -1,13 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Film } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import logo from "@/assets/logo.png.asset.json";
 
 export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }) {
   const onDark = variant === "dark";
   return (
     <nav className={`relative z-20 max-w-6xl mx-auto px-5 h-16 flex items-center justify-between`}>
       <Link to="/" className="flex items-center gap-2.5">
-        <Film className={`w-6 h-6 ${onDark ? "text-white" : "text-foreground"}`} strokeWidth={2.5} />
+        <img src={logo.url} alt="Editing Hub" width={28} height={28} className="w-7 h-7 rounded-md" />
         <span className={`text-lg font-semibold tracking-tight ${onDark ? "text-white/90" : "text-foreground"}`}>
           Editing Hub
         </span>
@@ -38,7 +38,7 @@ export function SiteFooter() {
     <footer className="border-t border-border/40 py-10 mt-12">
       <div className="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Film className="w-5 h-5 text-foreground" strokeWidth={2.5} />
+          <img src={logo.url} alt="Editing Hub" width={20} height={20} className="w-5 h-5 rounded-sm" />
           <span className="font-semibold text-foreground text-sm">Editing Hub</span>
         </div>
         <div className="flex items-center gap-5 text-sm text-muted-foreground">
