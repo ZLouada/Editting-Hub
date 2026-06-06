@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as EditorsRouteImport } from './routes/editors'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,11 @@ const InsightsRoute = InsightsRouteImport.update({
   path: '/insights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EditorsRoute = EditorsRouteImport.update({
+  id: '/editors',
+  path: '/editors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -45,9 +51,9 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const EditorsIndexRoute = EditorsIndexRouteImport.update({
-  id: '/editors/',
-  path: '/editors/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => EditorsRoute,
 } as any)
 const SignUpSplatRoute = SignUpSplatRouteImport.update({
   id: '/sign-up/$',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/contact': typeof ContactRoute
+  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/settings': typeof SettingsRoute
   '/editors/$id': typeof EditorsIdRoute
@@ -92,6 +99,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/contact': typeof ContactRoute
+  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/settings': typeof SettingsRoute
   '/editors/$id': typeof EditorsIdRoute
@@ -105,6 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/contact'
+    | '/editors'
     | '/insights'
     | '/settings'
     | '/editors/$id'
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/contact'
+    | '/editors'
     | '/insights'
     | '/settings'
     | '/editors/$id'
@@ -139,11 +149,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRoute
   ContactRoute: typeof ContactRoute
+  EditorsRoute: typeof EditorsRouteWithChildren
   InsightsRoute: typeof InsightsRoute
   SettingsRoute: typeof SettingsRoute
   SignInSplatRoute: typeof SignInSplatRoute
   SignUpSplatRoute: typeof SignUpSplatRoute
-  EditorsIndexRoute: typeof EditorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -160,6 +170,13 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights'
       preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editors': {
+      id: '/editors'
+      path: '/editors'
+      fullPath: '/editors'
+      preLoaderRoute: typeof EditorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -185,10 +202,10 @@ declare module '@tanstack/react-router' {
     }
     '/editors/': {
       id: '/editors/'
-      path: '/editors'
+      path: '/'
       fullPath: '/editors/'
       preLoaderRoute: typeof EditorsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof EditorsRoute
     }
     '/sign-up/$': {
       id: '/sign-up/$'
@@ -214,15 +231,28 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface EditorsRouteChildren {
+  EditorsIdRoute: typeof EditorsIdRoute
+  EditorsIndexRoute: typeof EditorsIndexRoute
+}
+
+const EditorsRouteChildren: EditorsRouteChildren = {
+  EditorsIdRoute: EditorsIdRoute,
+  EditorsIndexRoute: EditorsIndexRoute,
+}
+
+const EditorsRouteWithChildren =
+  EditorsRoute._addFileChildren(EditorsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRoute,
   ContactRoute: ContactRoute,
+  EditorsRoute: EditorsRouteWithChildren,
   InsightsRoute: InsightsRoute,
   SettingsRoute: SettingsRoute,
   SignInSplatRoute: SignInSplatRoute,
   SignUpSplatRoute: SignUpSplatRoute,
-  EditorsIndexRoute: EditorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
