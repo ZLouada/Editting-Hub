@@ -161,7 +161,12 @@ function devServerFnErrorLogger() {
 }
 
 export default defineConfig(({ command, mode }) => {
-  const useCloudflare = command === "build";
+  // Use Cloudflare plugin only when building AND not on Vercel (or other non-CF hosts).
+  // Set DEPLOY_TARGET=vercel (or rely on Vercel's built-in VERCEL env var) to opt out.
+  const useCloudflare =
+    command === "build" &&
+    !process.env.VERCEL &&
+    process.env.DEPLOY_TARGET !== "vercel";
 
   // Load VITE_ env vars and define them for SSR
   const env = loadEnv(mode, process.cwd(), "VITE_");
