@@ -1,9 +1,16 @@
 import {ClerkProvider} from "@clerk/tanstack-react-start";
 import { shadcn } from '@clerk/ui/themes';
-import { Outlet, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, createRootRoute, HeadContent, Scripts, redirect } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { auth } from "@clerk/tanstack-react-start/server";
 import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
+
+const checkAuth = createServerFn({ method: 'GET' }).handler(async () => {
+  const { userId } = await auth();
+  return { isAuthenticated: !!userId };
+});
 
 export const Route = createRootRoute({
   head: () => ({
@@ -60,6 +67,21 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  beforeLoad: async ({ location }) => {
+    const isAuthRoute = [
+      '/sign-in', '/sign-up', '/login', '/register', '/forgot-password', '/reset-password'
+    ].some(path => location.pathname.startsWith(path));
+
+    if (!isAuthRoute) {
+      const { isAuthenticated } = await checkAuth();
+      if (!isAuthenticated) {
+        throw redirect({
+          to: '/sign-in/$',
+          params: { _splat: '' }
+        });
+      }
+    }
+  },
   shellComponent: RootShell,
   component: RootComponent,
 });
