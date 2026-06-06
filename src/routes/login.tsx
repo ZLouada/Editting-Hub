@@ -79,7 +79,7 @@ function LoginPage() {
       <div className="max-w-sm w-full animate-fade-up-blur relative z-10">
         {/* Logo — links home */}
         <Link to="/" className="flex items-center justify-center gap-2.5 mb-8 hover:opacity-80 transition-opacity">
-          <InfinityIcon className="w-7 h-7 text-foreground" strokeWidth={2.5} />
+          <img src="/logo.png" alt="Editing Hub" width={28} height={28} className="w-7 h-7 rounded-md" />
           <span className="text-xl font-semibold text-foreground tracking-tight">Editing Hub</span>
         </Link>
 
