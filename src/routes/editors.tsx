@@ -78,7 +78,7 @@ function EditorsPage() {
                 key={e.id}
                 to="/editors/$id"
                 params={{ id: e.id }}
-                className="group rounded-2xl border border-black/[0.06] bg-card p-5 hover:shadow-lg hover:border-black/[0.1] transition-all duration-200"
+                className="group rounded-2xl border border-border/60 bg-card p-5 hover:shadow-lg hover:border-border transition-all duration-200"
               >
                 <div className="flex items-center gap-3">
                   <img src={e.avatar} alt={e.name} className="w-14 h-14 rounded-full object-cover" loading="lazy" />
