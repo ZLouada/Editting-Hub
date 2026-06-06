@@ -78,6 +78,7 @@ function EditorsPage() {
                 key={e.id}
                 to="/editors/$id"
                 params={{ id: e.id }}
+                target="_blank"
                 className="group rounded-2xl border border-border/60 bg-card p-5 hover:shadow-lg hover:border-border transition-all duration-200"
               >
                 <div className="flex items-center gap-3">
