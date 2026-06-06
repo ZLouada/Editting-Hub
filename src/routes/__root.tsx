@@ -1,3 +1,5 @@
+import {ClerkProvider} from "@clerk/tanstack-react-start";
+import { shadcn } from '@clerk/ui/themes';
 import { Outlet, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -69,8 +71,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body className="pb-[env(safe-area-inset-bottom)]">
-        {children}
-        <Scripts />
+        <ClerkProvider appearance={{ theme: shadcn }}>
+          {children}
+          <Scripts />
+        </ClerkProvider>
       </body>
     </html>
   );

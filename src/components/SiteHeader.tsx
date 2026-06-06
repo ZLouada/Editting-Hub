@@ -1,15 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { ThemeToggle } from "./ThemeToggle";
-import { useAuth } from "@/hooks/useAuth";
-import { LogOut, User } from "lucide-react";
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
+import { User } from "lucide-react";
 
 const logoUrl = "/logo.png";
 
 export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }) {
   const onDark = variant === "dark";
-  const { user, isAuthenticated, loading, logout } = useAuth();
-
-  const displayName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Account";
 
   return (
     <nav className={`relative z-20 max-w-6xl mx-auto px-5 h-16 flex items-center justify-between`}>
@@ -26,47 +23,28 @@ export function SiteHeader({ variant = "light" }: { variant?: "light" | "dark" }
       <div className="flex items-center gap-2">
         <ThemeToggle variant={variant} />
 
-        {!loading && isAuthenticated ? (
-          <>
-            <div className={`hidden sm:flex items-center gap-1.5 text-sm ${onDark ? "text-white/70" : "text-muted-foreground"}`}>
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center ${onDark ? "bg-white/10" : "bg-muted"}`}>
-                <User className="w-3.5 h-3.5" />
-              </div>
-              <span className="max-w-[100px] truncate">{displayName}</span>
-            </div>
-            <button
-              onClick={logout}
-              className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200 active:scale-[0.97] ${
-                onDark
-                  ? "border border-white/20 bg-white/5 text-white/80 hover:bg-white/10"
-                  : "border border-border bg-background text-muted-foreground hover:text-foreground hover:bg-muted"
-              }`}
-              title="Sign out"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Sign out</span>
-            </button>
-          </>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 active:scale-[0.97] ${
-                onDark
-                  ? "border border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
-                  : "border border-border bg-background text-foreground hover:bg-muted"
-              }`}
-            >
+        <Show when="signed-in">
+          <div className="flex items-center gap-2">
+            <UserButton afterSignOutUrl="/" appearance={{ elements: { userButtonAvatarBox: "w-8 h-8" } }} />
+          </div>
+        </Show>
+
+        <Show when="signed-out">
+          <SignInButton mode="modal">
+            <button className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 active:scale-[0.97] ${
+              onDark
+                ? "border border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
+                : "border border-border bg-background text-foreground hover:bg-muted"
+            }`}>
               Sign in
-            </Link>
-            <Link
-              to="/register"
-              className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold transition-all duration-200 active:scale-[0.97] bg-[#FDAA3E] text-[#1a1a1a] hover:bg-[#fdb95e] shadow-sm"
-            >
+            </button>
+          </SignInButton>
+          <SignUpButton mode="modal">
+            <button className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold transition-all duration-200 active:scale-[0.97] bg-[#FDAA3E] text-[#1a1a1a] hover:bg-[#fdb95e] shadow-sm">
               Sign up
-            </Link>
-          </>
-        )}
+            </button>
+          </SignUpButton>
+        </Show>
       </div>
     </nav>
   );
