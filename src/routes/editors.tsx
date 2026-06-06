@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search, Star, MapPin, ArrowRight } from "lucide-react";
-import { ALL_SPECIALTIES, searchEditors } from "@/lib/editors";
+import { ALL_SPECIALTIES, searchEditors, searchEditorsFromDb, type Editor } from "@/lib/editors";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { z } from "zod";
 
@@ -26,7 +26,29 @@ function EditorsPage() {
   const [q, setQ] = useState(search.q ?? "");
   const [specialty, setSpecialty] = useState(search.specialty ?? "All");
 
-  const results = useMemo(() => searchEditors(q, specialty), [q, specialty]);
+  // Start with synchronous fallback data for instant render
+  const fallbackResults = useMemo(() => searchEditors(q, specialty), [q, specialty]);
+  const [results, setResults] = useState<Editor[]>(fallbackResults);
+  const [loaded, setLoaded] = useState(false);
+
+  // Then hydrate from Supabase
+  useEffect(() => {
+    let cancelled = false;
+    searchEditorsFromDb(q, specialty).then((data) => {
+      if (!cancelled) {
+        setResults(data);
+        setLoaded(true);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [q, specialty]);
+
+  // Also update results from fallback when query changes (before DB responds)
+  useEffect(() => {
+    if (!loaded) {
+      setResults(searchEditors(q, specialty));
+    }
+  }, [q, specialty, loaded]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -44,14 +66,14 @@ function EditorsPage() {
             <input
               type="text"
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => { setQ(e.target.value); setLoaded(false); }}
               placeholder="Search editors…"
               className="w-full rounded-xl border border-input bg-background pl-11 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
           <select
             value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
+            onChange={(e) => { setSpecialty(e.target.value); setLoaded(false); }}
             className="rounded-xl border border-input bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           >
             {ALL_SPECIALTIES.map((s) => (
@@ -78,7 +100,6 @@ function EditorsPage() {
                 key={e.id}
                 to="/editors/$id"
                 params={{ id: e.id }}
-
                 className="group rounded-2xl border border-border/60 bg-card p-5 hover:shadow-lg hover:border-border transition-all duration-200"
               >
                 <div className="flex items-center gap-3">

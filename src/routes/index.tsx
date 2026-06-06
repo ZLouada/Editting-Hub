@@ -1,9 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Star, ArrowRight, Sparkles, Clock, ShieldCheck, Quote } from "lucide-react";
 import heroImg from "@/assets/hero-editor.jpg";
-import { EDITORS } from "@/lib/editors";
+import { fetchEditors, type Editor } from "@/lib/editors";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
+
+// Inline fallback for instant SSR render
+import { searchEditors } from "@/lib/editors";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -98,7 +101,17 @@ function Hero() {
 }
 
 function Featured() {
-  const editors = EDITORS.slice(0, 6);
+  const fallback = searchEditors("").slice(0, 6);
+  const [editors, setEditors] = useState<Editor[]>(fallback);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchEditors().then((data) => {
+      if (!cancelled) setEditors(data.slice(0, 6));
+    });
+    return () => { cancelled = true; };
+  }, []);
+
   return (
     <section className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-5">

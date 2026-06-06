@@ -1,3 +1,5 @@
+import { supabase } from "@/integrations/supabase/client";
+
 export type EditorReview = {
   author: string;
   avatar: string;
@@ -24,7 +26,157 @@ export type Editor = {
   testimonials?: EditorReview[];
 };
 
-const MOCK_REVIEWS: EditorReview[] = [
+/* ── Map a Supabase row to our Editor type ── */
+function mapRow(row: any): Editor {
+  return {
+    id: row.id,
+    name: row.name,
+    avatar: row.avatar,
+    headline: row.headline,
+    location: row.location,
+    hourlyRate: Number(row.hourly_rate),
+    rating: Number(row.rating),
+    reviews: Number(row.review_count),
+    specialties: row.specialties ?? [],
+    software: row.software ?? [],
+    bio: row.bio,
+    showreel: row.showreel ?? undefined,
+    skills: row.skills ?? [],
+    portfolioImages: row.portfolio_images ?? [],
+  };
+}
+
+function mapReview(row: any): EditorReview {
+  return {
+    author: row.author,
+    avatar: row.avatar,
+    rating: row.rating,
+    date: row.date,
+    comment: row.comment,
+  };
+}
+
+/* ── Fetch all editors ── */
+export async function fetchEditors(): Promise<Editor[]> {
+  const { data, error } = await supabase
+    .from("editors")
+    .select("*")
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("[editors] fetchEditors failed:", error.message);
+    return FALLBACK_EDITORS;
+  }
+  if (!data || data.length === 0) return FALLBACK_EDITORS;
+  return data.map(mapRow);
+}
+
+/* ── Search editors with optional query + specialty filter ── */
+export async function searchEditorsFromDb(
+  query: string,
+  specialty?: string
+): Promise<Editor[]> {
+  // Fetch all then filter client-side (small dataset)
+  const editors = await fetchEditors();
+  const q = query.trim().toLowerCase();
+
+  return editors.filter((e) => {
+    const matchQ =
+      !q ||
+      e.name.toLowerCase().includes(q) ||
+      e.headline.toLowerCase().includes(q) ||
+      e.location.toLowerCase().includes(q) ||
+      e.specialties.some((s) => s.toLowerCase().includes(q)) ||
+      e.software.some((s) => s.toLowerCase().includes(q));
+    const matchS = !specialty || specialty === "All" || e.specialties.includes(specialty);
+    return matchQ && matchS;
+  });
+}
+
+/* ── Fetch a single editor with reviews ── */
+export async function fetchEditor(id: string): Promise<Editor | undefined> {
+  const { data: editorRow, error } = await supabase
+    .from("editors")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !editorRow) {
+    console.error("[editors] fetchEditor failed:", error?.message);
+    // Try fallback
+    const fallback = FALLBACK_EDITORS.find((e) => e.id === id);
+    return fallback ? { ...fallback, testimonials: FALLBACK_REVIEWS } : undefined;
+  }
+
+  // Fetch reviews for this editor
+  const { data: reviews } = await supabase
+    .from("editor_reviews")
+    .select("*")
+    .eq("editor_id", id)
+    .order("created_at", { ascending: false });
+
+  const editor = mapRow(editorRow);
+  editor.testimonials = reviews && reviews.length > 0
+    ? reviews.map(mapReview)
+    : FALLBACK_REVIEWS;
+
+  return editor;
+}
+
+/* ── Static helpers (kept for backward compat) ── */
+
+export const ALL_SPECIALTIES = [
+  "All",
+  "YouTube",
+  "Short-form",
+  "Brand films",
+  "Documentary",
+  "Long-form",
+  "Motion graphics",
+  "VFX",
+  "Commercials",
+  "Weddings",
+  "Events",
+  "Gaming",
+  "TikTok",
+  "Reels",
+];
+
+/**
+ * Synchronous client-side search (uses fallback data).
+ * Kept as a compatibility layer — prefer searchEditorsFromDb for live data.
+ */
+export function searchEditors(query: string, specialty?: string): Editor[] {
+  const q = query.trim().toLowerCase();
+  return FALLBACK_EDITORS.filter((e) => {
+    const matchQ =
+      !q ||
+      e.name.toLowerCase().includes(q) ||
+      e.headline.toLowerCase().includes(q) ||
+      e.location.toLowerCase().includes(q) ||
+      e.specialties.some((s) => s.toLowerCase().includes(q)) ||
+      e.software.some((s) => s.toLowerCase().includes(q));
+    const matchS = !specialty || specialty === "All" || e.specialties.includes(specialty);
+    return matchQ && matchS;
+  });
+}
+
+/**
+ * Synchronous single-editor getter (uses fallback data).
+ * Kept as a compatibility layer — prefer fetchEditor for live data.
+ */
+export function getEditor(id: string): Editor | undefined {
+  const editor = FALLBACK_EDITORS.find((e) => e.id === id);
+  if (!editor) return undefined;
+  return { ...editor, testimonials: editor.testimonials ?? FALLBACK_REVIEWS };
+}
+
+/* ══════════════════════════════════════════════════════════
+   Fallback data — used when Supabase is unreachable
+   (SSR first render, offline, etc.)
+   ══════════════════════════════════════════════════════════ */
+
+const FALLBACK_REVIEWS: EditorReview[] = [
   {
     author: "Sarah Patel",
     avatar: "https://i.pravatar.cc/100?img=47",
@@ -55,9 +207,7 @@ const MOCK_REVIEWS: EditorReview[] = [
   },
 ];
 
-
-
-export const EDITORS: Editor[] = [
+const FALLBACK_EDITORS: Editor[] = [
   {
     id: "daniel-cooper",
     name: "Daniel Cooper",
@@ -173,42 +323,3 @@ export const EDITORS: Editor[] = [
     ],
   },
 ];
-
-export function searchEditors(query: string, specialty?: string): Editor[] {
-  const q = query.trim().toLowerCase();
-  return EDITORS.filter((e) => {
-    const matchQ =
-      !q ||
-      e.name.toLowerCase().includes(q) ||
-      e.headline.toLowerCase().includes(q) ||
-      e.location.toLowerCase().includes(q) ||
-      e.specialties.some((s) => s.toLowerCase().includes(q)) ||
-      e.software.some((s) => s.toLowerCase().includes(q));
-    const matchS = !specialty || specialty === "All" || e.specialties.includes(specialty);
-    return matchQ && matchS;
-  });
-}
-
-export const ALL_SPECIALTIES = [
-  "All",
-  "YouTube",
-  "Short-form",
-  "Brand films",
-  "Documentary",
-  "Long-form",
-  "Motion graphics",
-  "VFX",
-  "Commercials",
-  "Weddings",
-  "Events",
-  "Gaming",
-  "TikTok",
-  "Reels",
-];
-
-export function getEditor(id: string): Editor | undefined {
-  const editor = EDITORS.find((e) => e.id === id);
-  if (!editor) return undefined;
-  return { ...editor, testimonials: editor.testimonials ?? MOCK_REVIEWS };
-}
-

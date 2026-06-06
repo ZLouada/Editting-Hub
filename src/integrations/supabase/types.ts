@@ -44,6 +44,101 @@ export type Database = {
         }
         Relationships: []
       }
+      editor_reviews: {
+        Row: {
+          id: string
+          editor_id: string
+          author: string
+          avatar: string
+          rating: number
+          date: string
+          comment: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          editor_id: string
+          author: string
+          avatar?: string
+          rating: number
+          date?: string
+          comment?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          editor_id?: string
+          author?: string
+          avatar?: string
+          rating?: number
+          date?: string
+          comment?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "editor_reviews_editor_id_fkey"
+            columns: ["editor_id"]
+            isOneToOne: false
+            referencedRelation: "editors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      editors: {
+        Row: {
+          id: string
+          name: string
+          avatar: string
+          headline: string
+          location: string
+          hourly_rate: number
+          rating: number
+          review_count: number
+          specialties: string[]
+          software: string[]
+          bio: string
+          showreel: string | null
+          skills: string[]
+          portfolio_images: string[]
+          created_at: string
+        }
+        Insert: {
+          id: string
+          name: string
+          avatar?: string
+          headline?: string
+          location?: string
+          hourly_rate?: number
+          rating?: number
+          review_count?: number
+          specialties?: string[]
+          software?: string[]
+          bio?: string
+          showreel?: string | null
+          skills?: string[]
+          portfolio_images?: string[]
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          avatar?: string
+          headline?: string
+          location?: string
+          hourly_rate?: number
+          rating?: number
+          review_count?: number
+          specialties?: string[]
+          software?: string[]
+          bio?: string
+          showreel?: string | null
+          skills?: string[]
+          portfolio_images?: string[]
+          created_at?: string
+        }
+        Relationships: []
+      }
       habit_logs: {
         Row: {
           created_at: string

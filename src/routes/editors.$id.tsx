@@ -1,9 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Star, MapPin, Check, Wrench, Images, FileText, Send, CheckCircle2, MessageSquare, Globe, Clock, Briefcase } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
-import { getEditor, type Editor } from "@/lib/editors";
+import { getEditor, fetchEditor, type Editor } from "@/lib/editors";
 import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -39,7 +39,17 @@ export const Route = createFileRoute("/editors/$id")({
 });
 
 function EditorProfilePage() {
-  const { editor } = Route.useLoaderData();
+  const { editor: loaderEditor } = Route.useLoaderData();
+  const [editor, setEditor] = useState<Editor>(loaderEditor);
+
+  // Hydrate with live Supabase data on the client
+  useEffect(() => {
+    let cancelled = false;
+    fetchEditor(loaderEditor.id).then((liveEditor) => {
+      if (!cancelled && liveEditor) setEditor(liveEditor);
+    });
+    return () => { cancelled = true; };
+  }, [loaderEditor.id]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
