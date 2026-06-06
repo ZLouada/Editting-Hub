@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as InsightsRouteImport } from './routes/insights'
-import { Route as EditorsRouteImport } from './routes/editors'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EditorsIndexRouteImport } from './routes/editors.index'
 import { Route as SignUpSplatRouteImport } from './routes/sign-up.$'
 import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
 import { Route as EditorsIdRouteImport } from './routes/editors.$id'
@@ -27,11 +27,6 @@ const SettingsRoute = SettingsRouteImport.update({
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const EditorsRoute = EditorsRouteImport.update({
-  id: '/editors',
-  path: '/editors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -47,6 +42,11 @@ const AppRoute = AppRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorsIndexRoute = EditorsIndexRouteImport.update({
+  id: '/editors/',
+  path: '/editors/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignUpSplatRoute = SignUpSplatRouteImport.update({
@@ -69,35 +69,35 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/contact': typeof ContactRoute
-  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/settings': typeof SettingsRoute
   '/editors/$id': typeof EditorsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
+  '/editors/': typeof EditorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/contact': typeof ContactRoute
-  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/settings': typeof SettingsRoute
   '/editors/$id': typeof EditorsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
+  '/editors': typeof EditorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRoute
   '/contact': typeof ContactRoute
-  '/editors': typeof EditorsRouteWithChildren
   '/insights': typeof InsightsRoute
   '/settings': typeof SettingsRoute
   '/editors/$id': typeof EditorsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
+  '/editors/': typeof EditorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,45 +105,45 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/contact'
-    | '/editors'
     | '/insights'
     | '/settings'
     | '/editors/$id'
     | '/sign-in/$'
     | '/sign-up/$'
+    | '/editors/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/app'
     | '/contact'
-    | '/editors'
     | '/insights'
     | '/settings'
     | '/editors/$id'
     | '/sign-in/$'
     | '/sign-up/$'
+    | '/editors'
   id:
     | '__root__'
     | '/'
     | '/app'
     | '/contact'
-    | '/editors'
     | '/insights'
     | '/settings'
     | '/editors/$id'
     | '/sign-in/$'
     | '/sign-up/$'
+    | '/editors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRoute
   ContactRoute: typeof ContactRoute
-  EditorsRoute: typeof EditorsRouteWithChildren
   InsightsRoute: typeof InsightsRoute
   SettingsRoute: typeof SettingsRoute
   SignInSplatRoute: typeof SignInSplatRoute
   SignUpSplatRoute: typeof SignUpSplatRoute
+  EditorsIndexRoute: typeof EditorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -160,13 +160,6 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights'
       preLoaderRoute: typeof InsightsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/editors': {
-      id: '/editors'
-      path: '/editors'
-      fullPath: '/editors'
-      preLoaderRoute: typeof EditorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -188,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editors/': {
+      id: '/editors/'
+      path: '/editors'
+      fullPath: '/editors/'
+      preLoaderRoute: typeof EditorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-up/$': {
@@ -214,26 +214,15 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface EditorsRouteChildren {
-  EditorsIdRoute: typeof EditorsIdRoute
-}
-
-const EditorsRouteChildren: EditorsRouteChildren = {
-  EditorsIdRoute: EditorsIdRoute,
-}
-
-const EditorsRouteWithChildren =
-  EditorsRoute._addFileChildren(EditorsRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRoute,
   ContactRoute: ContactRoute,
-  EditorsRoute: EditorsRouteWithChildren,
   InsightsRoute: InsightsRoute,
   SettingsRoute: SettingsRoute,
   SignInSplatRoute: SignInSplatRoute,
   SignUpSplatRoute: SignUpSplatRoute,
+  EditorsIndexRoute: EditorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

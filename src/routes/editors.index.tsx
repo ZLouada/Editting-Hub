@@ -10,7 +10,7 @@ const searchSchema = z.object({
   specialty: z.string().optional(),
 });
 
-export const Route = createFileRoute("/editors")({
+export const Route = createFileRoute("/editors/")({
   component: EditorsPage,
   validateSearch: searchSchema,
   head: () => ({
