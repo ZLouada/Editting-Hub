@@ -1,0 +1,67 @@
+
+> lint
+> eslint .
+
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/.vercel/output/functions/__server.func/_libs/dnd-kit__core.mjs
+   170:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+   180:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1456:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1464:7  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1466:7  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1472:7  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1612:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1621:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1634:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1703:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1851:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  1884:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  2272:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  2622:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  2689:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  2733:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  2879:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  2954:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  3002:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/.vercel/output/functions/__server.func/_libs/dnd-kit__sortable.mjs
+  185:5  error  Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/.vercel/output/functions/__server.func/_libs/dnd-kit__utilities.mjs
+   10:5  error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  115:5  error    Definition for rule 'react-hooks/exhaustive-deps' was not found  react-hooks/exhaustive-deps
+  129:5  warning  Unused eslint-disable directive (no problems were reported)
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/.vercel/output/functions/__server.func/_libs/tanstack__router-core.mjs
+  2746:11  warning  Unused eslint-disable directive (no problems were reported from 'prefer-const')
+  2748:11  warning  Unused eslint-disable directive (no problems were reported from 'prefer-const')
+  2956:15  error    Definition for rule '@typescript-eslint/require-await' was not found             @typescript-eslint/require-await
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/OnboardingFlow.tsx
+  12:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  17:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/ThemeToggle.tsx
+  26:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/ui/badge.tsx
+  36:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/ui/button.tsx
+  57:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/ui/form.tsx
+  168:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/ui/navigation-menu.tsx
+  119:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/ui/sidebar.tsx
+  770:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/zlouada/Documents/Editing hub/Editting-Hub/src/components/ui/toggle.tsx
+  43:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+✖ 35 problems (23 errors, 12 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.
+
